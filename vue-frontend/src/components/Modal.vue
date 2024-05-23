@@ -201,7 +201,7 @@ export default {
             this.BtnIsLoading = true;
 
             try {
-                const response = await fetch('http://127.0.0.1:3000/api/submit-flag', {
+                const response = await fetch('/api/submit-flag', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'

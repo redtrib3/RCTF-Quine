@@ -204,7 +204,7 @@ methods: {
         const cache = JSON.parse(localStorage.getItem('chall-cache'));
 
         if (!cache || this.isExpired(cache.timestamp, CACHE_EXPIRY)) {
-            const response = await fetch('http://127.0.0.1:3000/api/challenges');
+            const response = await fetch('/api/challenges');
             let data = await response.json();
             const localData = { challenges: data.reverse(), timestamp: new Date().toISOString() };
             localStorage.setItem('chall-cache', JSON.stringify(localData));
