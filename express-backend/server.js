@@ -9,7 +9,7 @@ app.disable('x-powered-by');
 
 const HOSTNAME = process.env.HOSTNAME || '127.0.0.1';
 const PORT = process.env.PORT || 3000;
-const corsAllowList = process.env.ALLOWED_ORIGINS || "*"; 
+const corsAllowList = process.env.ALLOWED_ORIGINS.split(',');
 const corsArgs =  { origin: corsAllowList };
 
 app.use(cors(corsArgs));
