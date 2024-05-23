@@ -1,6 +1,7 @@
-import { createRouter, createWebHistory } from 'vue-router'
-import Challenges from '../views/Challenges.vue'
-import NotFound from '../views/404.vue'
+import { createRouter, createWebHistory } from 'vue-router';
+import Challenges from '../views/Challenges.vue';
+import NotFound from '../views/404.vue';
+
 
 const routes = [
   
@@ -12,8 +13,6 @@ const routes = [
       title: 'Challenges - redtrib3',
     }
   },
-  
-  
   {
     path: '/:catchAll(.*)',
     name: 'Not-Found',

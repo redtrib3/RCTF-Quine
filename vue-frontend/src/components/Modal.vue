@@ -1,6 +1,5 @@
 <template>
 
-<!-- Main modal -->
 <div  class="flex backdrop-blur-sm transition-colors  supports-backdrop-blur:bg-white/95 bg-slate-900/75  overflow-y-auto overflow-x-hidden fixed top-0 left-0 right-0 z-50 justify-center items-center w-full h-full md:inset-0  max-h-screen">
     
 

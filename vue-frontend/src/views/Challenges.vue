@@ -73,7 +73,7 @@ const TOUR_STEPS = [{
       {
         id: 'ending',
         title: 'The End 💯',
-        text: 'You made it to the end! \n\n To start over, click on the "Get Started" icon in the top right corner. Enjoy the challenges!',
+        text: 'You made it to the end! Learn more by playing a challenge, \n\n To start over the tour, click on the "Get Started" icon in the top right corner. Enjoy the challenges!',
         tourType: -1
       }];
 

@@ -1,10 +1,9 @@
 <template>
 
 <div class="bg-gradient-to-r from-gray-900 to-blue-900 shadow-md text-white py-20 relative">
-    <div class="container mx-auto">
+    <div class="container md:ml-10">
         <h1 class="text-3xl md:text-3xl lg:text-4xl font-bold mb-4 font-mono ml-4">Challenges<span class="animate-ping">_</span></h1>
-        <!--an apt description for a CTF platform-->
-        <p class="text-base md:text-lg lg:text-md mb-8 ml-4">A curated set of CTF challenges for noobs and vets alike.</p>
+        <p class=" text-sm md:text-lg lg:text-md mb-8 ml-4">A curated set of CTF challenges for noobs and vets alike.</p>
     </div>
     
     <div class="absolute bottom-0 right-0 mb-4 mr-4">
