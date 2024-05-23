@@ -29,4 +29,9 @@ You can either build the entire Webapp locally, or access the production build d
 
 Contributions are welcome! If you find any issues or have suggestions for improvements, please open an issue or submit a pull request.
 
+---
+<div align="center">
+    <img align="center" src="https://github.com/redtrib3/RCTF-Quine/assets/68897241/59de1565-265b-44bf-887b-87df48c39835" height=40 width=40 /> 
+</div>
+
 
