@@ -25,7 +25,7 @@
         <a href="https://blog.redtrib3.me" target="_blank" class="hover:bg-blue-800 md:hover:bg-transparent block py-2 px-3 md:p-0 md:font-semibold">Writeups</a>
       </li>
       <li>
-        <a href="/challenges" :class="{ 'text-lime-500 hover:bg-blue-800 md:hover:bg-transparent block py-2 px-3 md:p-0 md:font-semibold': isActive(), 'hover:bg-blue-800 md:hover:bg-transparent block py-2 px-3 md:p-0 md:font-semibold': !isActive() }">Challenges</a>
+        <a href="/" :class="{ 'text-lime-500 hover:bg-blue-800 md:hover:bg-transparent block py-2 px-3 md:p-0 md:font-semibold': isActive(), 'hover:bg-blue-800 md:hover:bg-transparent block py-2 px-3 md:p-0 md:font-semibold': !isActive() }">Challenges</a>
       </li>
     </ul>
   </div>

@@ -202,29 +202,35 @@ export default {
 
             try {
                 const response = await fetch('/api/submit-flag', {
+                    credentials: 'same-origin',
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({ 
                         chal_id: this.challengeData.id, 
-                        flag: this.userFlag.trim() 
+                        flag: this.userFlag.trim(),
                     })
                 });
 
                 const data = await response.json();
+                
+
+
                 if (data.success){
-                    this.showResponse('Yay, Correct Flag', 'success');
+                    this.showResponse('Yay, Correct Flag!', 'success');
                     this.BtnIsDisabled = true;
-                    
                     this.challengeCompleted(this.challengeData.id);
 
                 } else {
-                    this.showResponse('Wrong flag, Try again', 'failure');
+                    this.showResponse('Incorrect Flag! Try Again.', 'failure');
                     this.userFlag = '';
                 }
 
-                
+                if (data.error){
+                    this.showResponse('You have already solved this challenge!', 'warning');
+                    this.userFlag = '';
+                }
 
             } catch (error) {
                 this.showResponse('Some error occured', 'failure');
@@ -233,7 +239,7 @@ export default {
             
             setTimeout(() => {
                 this.BtnIsLoading = false;
-            }, 2500);
+            }, 1000);
 
             
         }

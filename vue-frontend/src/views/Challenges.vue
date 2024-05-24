@@ -25,6 +25,8 @@ import ScrollToTop  from '@/components/ScrollToTop.vue';
 
 import ShepherdTour from '@/mixins/ShepherdTour.js';
 
+
+
 // Tour steps are defined here to achieve DRY.
 // defining in data() causes async issues.
 const TOUR_STEPS = [{
@@ -101,7 +103,7 @@ data(){
       filteredTypes: [],
       filteredDiff: [],
       currPageNo: 0,
-    
+
     };
   },
 
@@ -177,42 +179,18 @@ methods: {
 
   },
 
-  // check if cache is expired.
-  isExpired(timestamp, ttl) {
-    if(!timestamp){
-      return true;
-    }
-
-    const old = new Date(timestamp).getTime();
-    const now = new Date().getTime();
-
-    // true if ttl is hit
-    return Math.abs(now-old) >= ttl;
-  },
-
- 
-
-  /*
-    method to fetch challenges from the backend.
-    If cache stored in localstorage is expired, 
-    fetch from backend and update cache.
-  */  
   async fetchChallenges() {
-    const CACHE_EXPIRY = 600000; // 10 minutes
-
+  
     try {
-        const cache = JSON.parse(localStorage.getItem('chall-cache'));
 
-        if (!cache || this.isExpired(cache.timestamp, CACHE_EXPIRY)) {
-            const response = await fetch('/api/challenges');
-            let data = await response.json();
-            const localData = { challenges: data.reverse(), timestamp: new Date().toISOString() };
-            localStorage.setItem('chall-cache', JSON.stringify(localData));
+        const response = await fetch('/api/challenges', {
+          credentials: 'same-origin', 
+        });
 
-            this.allChallenges = data;
-        } else {
-            this.allChallenges = cache.challenges;
-        }
+        let data = await response.json();
+        let { challs, solved } = data;
+        this.solvedChalls = solved;
+        this.allChallenges = challs.reverse();
 
         return this.divideChallenges(this.allChallenges, 6);
 
@@ -222,6 +200,7 @@ methods: {
     }
   },
 
+  
   // divide challenge array into pages, 6 per pg.
   divideChallenges(allchallengeArray, pageSize){
     let pages = []
