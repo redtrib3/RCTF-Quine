@@ -13,7 +13,7 @@ app.disable('x-powered-by');
 
 const HOSTNAME = config.HOSTNAME 
 const PORT = config.PORT;
-const corsAllowList = config.CORS_ALLOW_ORIGINS;
+const corsAllowList = config.CORS_ALLOWED_ORIGINS;
 const corsArgs =  { origin: corsAllowList, credentials: true };
 
 
