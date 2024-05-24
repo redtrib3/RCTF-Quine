@@ -1,22 +1,20 @@
 const express = require('express');
-const mongoose = require('mongoose');
 const path = require('path')
 const fs = require('fs');
 const crypto = require('crypto');
+const jwt = require('jsonwebtoken');
+
+const validateFlag = require('../middleware/flagValidation');
+const setToken = require('../middleware/setToken');
+const config = require('../config');
+const { FlagsTbl, ChallengesTbl, ProjectsTbl } = require('../models');
 
 const router = express.Router();
 
-const { FlagsTbl, ChallengesTbl, ProjectsTbl } = require('../models');
 
-const validateFlag = require('../middleware/flagValidation');
 
 function sha256sum(string) {
     return crypto.createHash('sha256').update(string).digest('hex');
-}
-
-function filePathExists(filepath) {
-    const absPath = path.resolve(filepath);
-    return fs.existsSync(absPath);
 }
 
 
@@ -39,46 +37,57 @@ router.get('/download/:fileName', (req, res) => {
 });
 
 
-router.get('/challenges', async (req, res) => {
+router.get('/challenges', setToken, async (req, res) => {
+
     try {
+
         const challs = await ChallengesTbl.find();
-        res.status(200).json(challs);
+        
+        // sent back already solved challenges
+        decodedToken = jwt.verify(res.locals.jwt_token, config.SECRET_KEY);
+        const solvedChalls = decodedToken.solved;
+        
+        res.status(200).json({
+            challs: challs,
+            solved: solvedChalls,
+        });
 
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({error: 'Database error'});
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({error: err.message});
     }
 });
 
 
-router.get('/projects', async (req, res) => {
-    try {
-        const projects = await ProjectsTbl.find({});
-        res.status(200).json(projects);
-    } catch(error) {
-        console.error(error);
-        res.status(500).json({error: 'Database error'});
-    }
-});
-
-
-router.post('/submit-flag', validateFlag, async (req, res) => {
+router.post('/submit-flag', setToken, validateFlag, async (req, res) => {
 
     const flagSign = sha256sum(req.flag);
-
+    
     try {
 
         const flagExists = await FlagsTbl.findOne({ ch_id: req.chal_id, flag_sign: flagSign });
 
         if (flagExists) {
-            return res.json({ challenge_id: req.chal_id, success: true});
+            // send back token with updated solves.   
+            const decodedToken = await jwt.verify(res.locals.jwt_token, config.SECRET_KEY);
+
+
+            if(decodedToken.solved.includes(req.chal_id)){
+                return res.json({ challenge_id: req.chal_id, error: 'already_solved'});
+            }
+
+            decodedToken.solved.push(req.chal_id);
+            const newToken = jwt.sign(decodedToken, config.SECRET_KEY);
+            res.cookie('GUID', newToken, { httpOnly: true, sameSite: 'strict', secure: process.env.NODE_ENV === 'production'});
+
+            return res.json({ challenge_id: req.chal_id, success: true });
         }
 
         return res.json({ challenge_id: req.chal_id, success: false});
 
     } catch(err) {
         console.error('Error:', err);
-        res.status(500).json({ error: 'Internal server error, check back later' , success: false});
+        res.status(500).json({ error: 'Error Submitting flag.' , success: false});
     }
 });
 
