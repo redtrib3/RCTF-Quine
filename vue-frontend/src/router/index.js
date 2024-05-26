@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import Challenges from '../views/Challenges.vue';
 import NotFound from '../views/404.vue';
+import ActivityLog from '../views/ActivityLog.vue';
 
 
 const routes = [
@@ -11,6 +12,14 @@ const routes = [
     component: Challenges,
     meta: {
       title: 'Challenges - redtrib3',
+    }
+  },
+  {
+    path: '/activity',
+    name: 'LogWall',
+    component: ActivityLog,
+    meta: {
+      title: 'Activity Log - redtrib3',
     }
   },
   {

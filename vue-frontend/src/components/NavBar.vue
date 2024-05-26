@@ -7,7 +7,7 @@
     </router-link>
   <div class="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
     <!--Call the Shepherd-->
-      <button data-tooltip-target="tooltip-default" @click="callShepherdAgain" type="button" class="focus:outline-none rounded-full  ">
+      <button id="shepherd-btn" data-tooltip-target="tooltip-default" @click="callShepherdAgain" type="button" class="focus:outline-none rounded-full  ">
         <svg class="w-5 h-5 fill-current text-slate-400" xmlns="http://www.w3.org/2000/svg" fill="currentColor"  viewBox="0 0 16 16">
           <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16m.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2"/>
         </svg>
@@ -25,7 +25,10 @@
         <a href="https://blog.redtrib3.me" target="_blank" class="hover:bg-blue-800 md:hover:bg-transparent block py-2 px-3 md:p-0 md:font-semibold">Writeups</a>
       </li>
       <li>
-        <a href="/" :class="{ 'text-lime-500 hover:bg-blue-800 md:hover:bg-transparent block py-2 px-3 md:p-0 md:font-semibold': isActive(), 'hover:bg-blue-800 md:hover:bg-transparent block py-2 px-3 md:p-0 md:font-semibold': !isActive() }">Challenges</a>
+        <a href="/" :class="{ 'text-lime-500 hover:bg-blue-800 md:hover:bg-transparent block py-2 px-3 md:p-0 md:font-semibold': isActive('/'), 'hover:bg-blue-800 md:hover:bg-transparent block py-2 px-3 md:p-0 md:font-semibold': !isActive('/') }">Challenges</a>
+      </li>
+      <li id="activity-link">
+        <a href="/activity" :class="{ 'text-lime-500 hover:bg-blue-800 md:hover:bg-transparent block py-2 px-3 md:p-0 md:font-semibold': isActive('/activity'), 'hover:bg-blue-800 md:hover:bg-transparent block py-2 px-3 md:p-0 md:font-semibold': !isActive('/activity') }">Activity</a>
       </li>
     </ul>
   </div>
@@ -52,8 +55,8 @@ export default {
 
 
   methods:{
-      isActive(){
-        return this.$route.path === '/';
+      isActive(path){
+        return this.$route.path === path;
       },
 
       changeBurgerIcon(){

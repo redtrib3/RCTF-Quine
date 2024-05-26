@@ -73,6 +73,13 @@ const TOUR_STEPS = [{
         tourType: 1
       },
       {
+        id: 't-5',
+        title: 'Activities 🚀',
+        text: 'Check out the activities section to see what other users are up to!',
+        attachTo: { element: '#activity-link' , on: 'bottom'},
+        tourType: 1
+      },
+      {
         id: 'ending',
         title: 'The End 💯',
         text: 'You made it to the end! Learn more by playing a challenge, \n\n To start over the tour, click on the "Get Started" icon in the top right corner. Enjoy the challenges!',
@@ -128,7 +135,7 @@ mounted(){
     this.$nextTick(() => {
       this.createTour(TOUR_STEPS, true);
       this.startTour();
-      localStorage.setItem('_tour', JSON.stringify({ modal_viewed: false,  tour_viewed: true }));
+      localStorage.setItem('_tour', JSON.stringify({ modal_viewed: false,  tour_viewed: true, activity_viewed: false }));
     });
   }
   
@@ -164,8 +171,7 @@ methods: {
     this.createTour(TOUR_STEPS, true);
     this.startTour();
 
-    // clear storage if exists.
-    localStorage.setItem('_tour', JSON.stringify({ modal_viewed: false,  tour_viewed: true }));
+    localStorage.setItem('_tour', JSON.stringify({ modal_viewed: false,  tour_viewed: true, activity_viewed: false }));
   },
   // event handler for modal challenge-solved event.
   handleChallSolve(challId){

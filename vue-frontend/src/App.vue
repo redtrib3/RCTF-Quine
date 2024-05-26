@@ -19,9 +19,11 @@ export default {
     };
   },
 
-  // dynamically let the routes decide if to show footer or not.
   created() {
+
     /*
+      dynamically let the routes decide if to show footer or not.
+
       from = the path user is coming from.
       to = the path user is going to.
       next() -> call the next beforeEach 

@@ -49,14 +49,14 @@
 
 
                     <!--external link button v-if challenge has URL link-->
-                    <button v-if="challengeData.externalLink" :href="challengeData.externalLink" target="_blank" type="button"  class="inline-flex items-center text-center py-2.5 px-5 me-2 mb-2 text-sm font-medium focus:outline-none  rounded-lg border focus:z-10 focus:ring-4  focus:ring-gray-700 bg-gray-800 text-gray-400 border-gray-600 hover:text-white hover:bg-gray-700">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-4 h-4">
-                      <path fill-rule="evenodd" d="M8.914 6.025a.75.75 0 0 1 1.06 0 3.5 3.5 0 0 1 0 4.95l-2 2a3.5 3.5 0 0 1-5.396-4.402.75.75 0 0 1 1.251.827 2 2 0 0 0 3.085 2.514l2-2a2 2 0 0 0 0-2.828.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
-                      <path fill-rule="evenodd" d="M7.086 9.975a.75.75 0 0 1-1.06 0 3.5 3.5 0 0 1 0-4.95l2-2a3.5 3.5 0 0 1 5.396 4.402.75.75 0 0 1-1.251-.827 2 2 0 0 0-3.085-2.514l-2 2a2 2 0 0 0 0 2.828.75.75 0 0 1 0 1.06Z" clip-rule="evenodd" />
-                    </svg>
+                    <a v-if="challengeData.externalLink" :href="challengeData.externalLink" target="_blank" type="button"  class="inline-flex items-center text-center py-2.5 px-5 me-2 mb-2 text-sm font-medium focus:outline-none  rounded-lg border focus:z-10 focus:ring-4  focus:ring-gray-700 bg-gray-800 text-gray-400 border-gray-600 hover:text-white hover:bg-gray-700">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-4 h-4">
+                          <path fill-rule="evenodd" d="M8.914 6.025a.75.75 0 0 1 1.06 0 3.5 3.5 0 0 1 0 4.95l-2 2a3.5 3.5 0 0 1-5.396-4.402.75.75 0 0 1 1.251.827 2 2 0 0 0 3.085 2.514l2-2a2 2 0 0 0 0-2.828.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
+                          <path fill-rule="evenodd" d="M7.086 9.975a.75.75 0 0 1-1.06 0 3.5 3.5 0 0 1 0-4.95l2-2a3.5 3.5 0 0 1 5.396 4.402.75.75 0 0 1-1.251-.827 2 2 0 0 0-3.085-2.514l-2 2a2 2 0 0 0 0 2.828.75.75 0 0 1 0 1.06Z" clip-rule="evenodd" />
+                        </svg>
                     <span class="mx-1">Link</span>
                     
-                    </button>
+                    </a>
                 </span>
             </div>
             <!-- Modal footer -->
@@ -114,7 +114,8 @@ export default {
             if (!hasViewed){
                 localStorage.setItem('_tour', JSON.stringify({
                     modal_viewed: true,
-                    tour_viewed: true // assuming the user has already viewed the main tour
+                    tour_viewed: true, // assuming the user has already viewed the main tour
+                    activity_viewed: false
                 }));
 
                 this.createTour([
@@ -202,7 +203,7 @@ export default {
 
             try {
                 const response = await fetch('/api/submit-flag', {
-                    credentials: 'same-origin',
+                    credentials: 'same-origin', 
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
