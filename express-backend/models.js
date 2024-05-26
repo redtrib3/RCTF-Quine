@@ -36,8 +36,16 @@ const ChallengesSchema = new mongoose.Schema({
     }
 });
 
+const SolveLogSchema = new mongoose.Schema({
+    guid: String,
+    ch_id: Number,
+    ch_title: String,
+    timestamp: Date
+});
+
 
 module.exports = {
     FlagsTbl: mongoose.model('flags', FlagSchema),
     ChallengesTbl: mongoose.model('challenges_infos', ChallengesSchema),
+    SolveLogTbl: mongoose.model('solve_logs', SolveLogSchema),
 }

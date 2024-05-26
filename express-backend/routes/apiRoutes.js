@@ -3,14 +3,23 @@ const path = require('path')
 const fs = require('fs');
 const crypto = require('crypto');
 const jwt = require('jsonwebtoken');
+const rateLimit = require('express-rate-limit');
 
 const validateFlag = require('../middleware/flagValidation');
 const setToken = require('../middleware/setToken');
 const config = require('../config');
-const { FlagsTbl, ChallengesTbl, ProjectsTbl } = require('../models');
+const { FlagsTbl, ChallengesTbl, SolveLogTbl } = require('../models');
 
 const router = express.Router();
 
+
+// rate limit, cause we don't want to be fuzzed.
+const ApiLimiter = rateLimit({
+    windowMs: 60 * 1000, // 1 minute
+    max: 20,
+});
+
+router.use(ApiLimiter);
 
 
 function sha256sum(string) {
@@ -58,6 +67,12 @@ router.get('/challenges', setToken, async (req, res) => {
     }
 });
 
+// log the solves
+router.get('/peakaboo', setToken, async (req, res) => {
+    const solveLogs = await SolveLogTbl.find();
+    return res.json(solveLogs);
+});
+
 
 router.post('/submit-flag', setToken, validateFlag, async (req, res) => {
 
@@ -65,12 +80,13 @@ router.post('/submit-flag', setToken, validateFlag, async (req, res) => {
     
     try {
 
+        const challenge = await ChallengesTbl.findOne({ id: req.chal_id });
         const flagExists = await FlagsTbl.findOne({ ch_id: req.chal_id, flag_sign: flagSign });
 
         if (flagExists) {
+
             // send back token with updated solves.   
             const decodedToken = await jwt.verify(res.locals.jwt_token, config.SECRET_KEY);
-
 
             if(decodedToken.solved.includes(req.chal_id)){
                 return res.json({ challenge_id: req.chal_id, error: 'already_solved'});
@@ -79,6 +95,17 @@ router.post('/submit-flag', setToken, validateFlag, async (req, res) => {
             decodedToken.solved.push(req.chal_id);
             const newToken = jwt.sign(decodedToken, config.SECRET_KEY);
             res.cookie('GUID', newToken, { httpOnly: true, sameSite: 'strict', secure: process.env.NODE_ENV === 'production'});
+                
+            // log the solve
+            const newLog = new SolveLogTbl({
+                guid: decodedToken.GUID,
+                ch_id: req.chal_id,
+                ch_title: challenge.title,
+                timestamp: new Date(),
+                
+            });
+            await newLog.save();
+
 
             return res.json({ challenge_id: req.chal_id, success: true });
         }
