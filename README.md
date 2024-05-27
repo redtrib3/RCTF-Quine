@@ -3,9 +3,16 @@
 
 # RCTF With ShepherdJS - Quine Quest Week 12
 
-A Capture the flag webapp featuring Shepherd.js 🐑 !
+A Capture the flag webapp featuring Shepherd.js 🐑 ! \
+**Website** - https://shepherd.redtrib3.me/ 👨‍💻
 
-**Website** - https://shepherd.redtrib3.me/
+### Demo with ShepherdJS:
+<details>
+ <summary>Click to view Demo video (Chrome).</summary>
+
+ https://github.com/redtrib3/RCTF-Quine/assets/68897241/ebbdbf4c-a963-4df9-99a7-1322d4743578
+</details>
+
 
 > **STACK**: VueJS, ExpressJS, MongoDB
 
